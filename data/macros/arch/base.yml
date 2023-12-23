@@ -78,6 +78,7 @@ actions              :
             OBJCOPY="%(objcopy)"; export OBJCOPY
             NM="%(nm)"; export NM
             RANLIB="%(ranlib)"; export RANLIB
+            RUSTFLAGS="%(rustflags)"; export RUSTFLAGS
             STRIP="%(strip)"; export STRIP
             PATH="%(path)"; export PATH
             CCACHE_DIR="%(ccachedir)"; export CCACHE_DIR;
@@ -294,11 +295,13 @@ flags               :
         c         : "-fomit-frame-pointer -momit-leaf-frame-pointer"
         cxx       : "-fomit-frame-pointer -momit-leaf-frame-pointer"
         d         : "-frame-pointer=none"
+        rust      : "-C force-frame-pointers=false"
 
     - no-omit-frame-pointer:
         c         : "-fno-omit-frame-pointer -mno-omit-leaf-frame-pointer"
         cxx       : "-fno-omit-frame-pointer -mno-omit-leaf-frame-pointer"
         d         : "-frame-pointer=all"
+        rust      : "-C force-frame-pointers=true"
 
     # Toggle bindnow (ON)
     - bindnow:
@@ -353,12 +356,14 @@ flags               :
         c         : "-O2"
         cxx       : "-O2"
         d         : "-O2"
+        rust      : "-C opt-level=3"
 
     # Optimize for size (OFF)
     - optimize-size:
         c     : "-Os"
         cxx   : "-Os"
         d     : "-Os"
+        rust  : "-C opt-level=s"
 
     # Optimize for speed (OFF)
     - optimize-speed:
@@ -371,12 +376,14 @@ flags               :
         c         : "-flto"
         cxx       : "-flto"
         ld        : "-flto"
+        rust      : "-C lto=fat"
         llvm:
             d         : "-flto=full"
 
 
     # Enable Thin-LTO optimisations (OFF)
     - lto-thin:
+        rust        : "-C lto=thin"
         llvm:
             c         : "-flto=thin"
             cxx       : "-flto=thin"
@@ -440,12 +447,14 @@ flags               :
             c         : "-gline-tables-only -fasynchronous-unwind-tables"
             cxx       : "-gline-tables-only -fasynchronous-unwind-tables"
             d         : "-gline-tables-only -gc"
+            rust      : "-C line-tables-only -C split-debuginfo=packed"
 
     # Toggle debug-std optimisations (ON)
     - debug-std:
         c         : "-g -feliminate-unused-debug-types -fasynchronous-unwind-tables"
         cxx       : "-g -feliminate-unused-debug-types -fasynchronous-unwind-tables"
         d         : "-g -gc -d-debug"
+        rust      : "-g -C split-debuginfo=packed"
 
     # Toggle fast math (OFF)
     - math:

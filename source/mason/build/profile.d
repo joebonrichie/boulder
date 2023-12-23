@@ -422,11 +422,13 @@ private:
         auto cxxflags = fixupFlags(flagset.map!((f) => f.cxxflags(toolchain)));
         auto dflags = fixupFlags(flagset.map!((f) => f.dflags(toolchain)));
         auto ldflags = fixupFlags(flagset.map!((f) => f.ldflags(toolchain)));
+        auto rustflags = fixupFlags(flagset.map!((f) => f.rustflags(toolchain)));
 
         sbuilder.addDefinition("cflags", cflags);
         sbuilder.addDefinition("cxxflags", cxxflags);
         sbuilder.addDefinition("dflags", dflags);
         sbuilder.addDefinition("ldflags", ldflags);
+        sbuilder.addDefinition("rustflags", rustflags);
     }
 
     /**

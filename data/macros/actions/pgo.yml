@@ -96,6 +96,7 @@ flags               :
 
     # PGO stage1 flags for ProfileStage1 (workload builds only)
     - pgostage1:
+        rust        : "-C profile-generate=%(pgo_dir)/IR"
         llvm:
             c         : "-fprofile-generate=%(pgo_dir)/IR"
             cxx       : "-fprofile-generate=%(pgo_dir)/IR"
@@ -114,6 +115,7 @@ flags               :
 
     # PGO final flags for ProfileUse (workload builds only)
     - pgouse:
+        rust        : "-C profile-use=%(pgo_dir)/combined.profdata"
         llvm:
             c         : "-fprofile-use=%(pgo_dir)/combined.profdata"
             cxx       : "-fprofile-use=%(pgo_dir)/combined.profdata"
